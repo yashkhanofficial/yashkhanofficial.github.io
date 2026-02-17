@@ -3,105 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yash Khan | Elite Cyber Security Expert</title>
+    <title>Yash Khan | Cyber Security Strategist</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
     <div id="particles-js"></div>
 
-    <nav>
+    <nav class="glass-nav">
         <div class="nav-container">
-            <div class="logo-text">YASH<span>KHAN</span></div>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">Biography</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#services">Services</a></li>
+            <div class="logo">YASH<span>KHAN</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Terminal</a></li>
+                <li><a href="#about">Mission</a></li>
+                <li><a href="#skills">Arsenal</a></li>
+                <li><a href="#services">Operations</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <section id="home" class="hero">
+    <header id="home" class="cyber-hero">
         <div class="hero-content">
+            <div class="scanner-line"></div>
             <img src="logo.png" alt="Yash Khan" class="profile-logo">
-            <h1 class="glitch" data-text="YASH KHAN">YASH KHAN</h1>
-            <div class="terminal-text" id="typewriter"></div>
-            <p class="hero-desc">Neutralizing threats. Securing assets. Defending the nation's digital integrity.</p>
-            <div class="social-links">
+            <h1 class="glitch-text" data-text="YASH KHAN">YASH KHAN</h1>
+            <div class="typing-container">
+                <span id="typewriter"></span><span class="cursor">_</span>
+            </div>
+            <p class="hero-sub">Securing Infrastructure | Neutralizing Threats | Serving Bangladesh</p>
+            <div class="social-icons">
                 <a href="https://www.facebook.com/DreamBlackHacker" target="_blank"><i class="fab fa-facebook"></i></a>
                 <a href="mailto:info.yashkhan@gmail.com"><i class="fas fa-envelope"></i></a>
             </div>
-            <a href="#contact" class="btn-main">HIRE THE EXPERT</a>
+            <div class="cta-group">
+                <a href="#contact" class="btn-primary">REPORT VULNERABILITY</a>
+                <a href="#about" class="btn-secondary">READ BIOGRAPHY</a>
+            </div>
         </div>
-    </section>
+    </header>
 
-    <div class="container">
-        <section id="about" class="bio-section">
-            <h2 class="section-title">The Journey of a Protector</h2>
-            <div class="bio-content">
-                <p>Yash Khan is a renowned <strong>Cyber Security Researcher</strong> and <strong>Ethical Hacker</strong> dedicated to fortifying the digital landscape. With years of experience in identifying critical system vulnerabilities, he has saved numerous high-profile organizations from devastating cyber-attacks.</p>
-                <p>Beyond the screen, Yash is a patriot. He works tirelessly to educate the general public about cyber threats, believing that <em>"A secure nation starts with an informed citizen."</em> His mission is to turn the "Black Hat" world into a "White Hat" sanctuary for his country.</p>
+    <main class="container">
+        <section id="about" class="fade-in">
+            <h2 class="section-title"><i class="fas fa-user-secret"></i> The Profile</h2>
+            <div class="bio-grid">
+                <div class="bio-text">
+                    <p>Known in the digital underground as a <strong>White-Hat Strategist</strong>, Yash Khan has dedicated his career to the art of Ethical Hacking. He doesn't just find bugs; he engineers security solutions that safeguard corporate assets and national interests.</p>
+                    <p>Driven by a deep sense of patriotism, Yash has been instrumental in identifying critical flaws in numerous organizations, ensuring they are patched before malicious actors can exploit them. His philosophy is simple: <em>"In an era of digital warfare, information is the frontline, and awareness is the best weapon."</em></p>
+                </div>
             </div>
         </section>
 
         <section id="skills">
-            <h2 class="section-title">Technical Expertise</h2>
-            <div class="skills-container">
-                <div class="skill-box">
-                    <span>Web Application Penetration Testing (VAPT)</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 95%;"></div></div>
+            <h2 class="section-title"><i class="fas fa-terminal"></i> Technical Arsenal</h2>
+            <div class="skill-matrix">
+                <div class="skill-item">
+                    <div class="skill-info"><span>Vulnerability Assessment (VAPT)</span><span>98%</span></div>
+                    <div class="progress-bar"><div class="fill" style="width: 98%;"></div></div>
                 </div>
-                <div class="skill-box">
-                    <span>Network Security & Firewall Auditing</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 90%;"></div></div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Offensive Security & Red Teaming</span><span>92%</span></div>
+                    <div class="progress-bar"><div class="fill" style="width: 92%;"></div></div>
                 </div>
-                <div class="skill-box">
-                    <span>Advanced Malware Analysis</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 85%;"></div></div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Network Forensics & Incident Response</span><span>85%</span></div>
+                    <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
                 </div>
-                <div class="skill-box">
-                    <span>Digital Forensics & Incident Response</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 80%;"></div></div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Python for Cyber Security</span><span>88%</span></div>
+                    <div class="progress-bar"><div class="fill" style="width: 88%;"></div></div>
                 </div>
-                <div class="skill-box">
-                    <span>Bug Bounty & Exploit Development</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 92%;"></div></div>
-                </div>
-                <div class="skill-box">
-                    <span>Cloud Security (AWS/Azure)</span>
-                    <div class="skill-bar"><div class="skill-per" style="width: 88%;"></div></div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Cloud & Server Hardening</span><span>90%</span></div>
+                    <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
                 </div>
             </div>
         </section>
 
         <section id="services">
-            <h2 class="section-title">Our Solutions</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <i class="fas fa-shield-virus"></i>
-                    <h3>Threat Hunting</h3>
-                    <p>Proactively identifying and neutralizing advanced persistent threats (APTs) before they strike.</p>
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Strategic Operations</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <i class="fas fa-building-shield"></i>
+                    <h3>Corporate Defense</h3>
+                    <p>End-to-end security auditing for enterprises to prevent data breaches and financial loss.</p>
                 </div>
-                <div class="service-card">
-                    <i class="fas fa-user-ninja"></i>
-                    <h3>Social Engineering Defense</h3>
-                    <p>Training employees and citizens to recognize and prevent phishing and manipulation attacks.</p>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                    <h3>Public Awareness</h3>
+                    <p>Educational initiatives to protect the common citizens of Bangladesh from cyber fraud.</p>
                 </div>
-                <div class="service-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Secure Code Review</h3>
-                    <p>Analyzing source code to ensure that the application is secure by design from the ground up.</p>
+                <div class="card">
+                    <i class="fas fa-bug"></i>
+                    <h3>Bug Bounty Management</h3>
+                    <p>Responsible disclosure of vulnerabilities to help organizations improve their security posture.</p>
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 
     <footer>
-        <p>SYSTEM STATUS: <span style="color: var(--accent-green);">ONLINE</span></p>
-        <p>&copy; 2024 Yash Khan | Professional Ethical Hacker. All Rights Reserved.</p>
+        <div class="footer-content">
+            <p>Status: <span class="status-online">● SYSTEM SECURED</span></p>
+            <p>&copy; 2026 Yash Khan. All Rights Reserved.</p>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
