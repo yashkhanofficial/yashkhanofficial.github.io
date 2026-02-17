@@ -1,136 +1,69 @@
 :root {
-    --bg-dark: #080808;
+    --bg-dark: #050505;
     --accent-green: #00ff41;
-    --text-white: #ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.05);
+    --matrix-color: rgba(0, 255, 65, 0.15);
 }
 
 body {
     background-color: var(--bg-dark);
-    color: var(--text-white);
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #ccc;
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
 }
 
-#particles-js {
-    position: fixed;
+/* Glitch Effect */
+.glitch {
+    position: relative;
+    font-size: 5rem;
+    color: var(--accent-green);
+    text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+}
+
+/* Animated Skills Bar */
+.skills-container { padding: 20px; }
+.skill-box { margin-bottom: 25px; }
+.skill-box span { display: block; margin-bottom: 10px; font-weight: bold; color: #fff; }
+.skill-bar {
+    height: 10px;
     width: 100%;
+    background: #1a1a1a;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--accent-green);
+}
+.skill-per {
     height: 100%;
-    z-index: -1;
+    background: var(--accent-green);
+    box-shadow: 0 0 10px var(--accent-green);
+    animation: fillBars 2.5s ease-in-out;
 }
 
-nav {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--accent-green);
+@keyframes fillBars {
+    from { width: 0; }
 }
 
-.nav-container {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+.bio-section {
+    padding: 60px 20px;
+    background: rgba(0, 255, 65, 0.02);
+    border-radius: 10px;
+    border: 1px solid #111;
 }
 
-.logo-text { font-weight: bold; font-size: 1.5rem; letter-spacing: 2px; }
-.logo-text span { color: var(--accent-green); }
-
-nav ul { list-style: none; display: flex; gap: 20px; }
-nav ul li a { color: white; text-decoration: none; transition: 0.3s; }
-nav ul li a:hover { color: var(--accent-green); }
-
-.hero {
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.profile-logo {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    border: 4px solid var(--accent-green);
-    box-shadow: 0 0 20px var(--accent-green);
+.bio-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
     margin-bottom: 20px;
 }
 
-.glitch {
-    font-size: 4rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    color: var(--accent-green);
-}
-
-.btn-main {
-    margin-top: 30px;
-    display: inline-block;
-    padding: 12px 35px;
-    background: transparent;
-    border: 2px solid var(--accent-green);
-    color: var(--accent-green);
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 50px;
-    transition: 0.4s;
-}
-
-.btn-main:hover {
-    background: var(--accent-green);
-    color: black;
-    box-shadow: 0 0 15px var(--accent-green);
-}
-
-.section-title {
-    text-align: center;
-    color: var(--accent-green);
-    font-size: 2rem;
-    margin-bottom: 40px;
-}
-
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 50px 0;
-}
-
+/* Service Cards */
 .service-card {
-    background: var(--glass-bg);
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    border: 1px solid #333;
-    transition: 0.3s;
+    background: #0d0d0d;
+    border: 1px solid #222;
+    transition: all 0.4s ease;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
     border-color: var(--accent-green);
+    box-shadow: 0 0 20px var(--matrix-color);
+    transform: scale(1.05);
 }
-
-.service-card i {
-    font-size: 3rem;
-    color: var(--accent-green);
-    margin-bottom: 15px;
-}
-
-.social-links { margin: 20px 0; font-size: 1.5rem; }
-.social-links a { color: white; margin: 0 10px; transition: 0.3s; }
-.social-links a:hover { color: var(--accent-green); }
-
-footer {
-    text-align: center;
-    padding: 40px;
-    background: #000;
-    border-top: 1px solid #222;
-  }
