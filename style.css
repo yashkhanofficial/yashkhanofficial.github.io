@@ -1,69 +1,100 @@
 :root {
-    --bg-dark: #050505;
-    --accent-green: #00ff41;
-    --matrix-color: rgba(0, 255, 65, 0.15);
+    --primary: #00ff41; /* Classic Matrix Green */
+    --bg: #050505;
+    --text: #e0e0e0;
+    --glass: rgba(0, 255, 65, 0.05);
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: #ccc;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
 
-/* Glitch Effect */
-.glitch {
+/* Hero Scanner Effect */
+.cyber-hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     position: relative;
-    font-size: 5rem;
-    color: var(--accent-green);
-    text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+    border-bottom: 2px solid var(--primary);
 }
 
-/* Animated Skills Bar */
-.skills-container { padding: 20px; }
-.skill-box { margin-bottom: 25px; }
-.skill-box span { display: block; margin-bottom: 10px; font-weight: bold; color: #fff; }
-.skill-bar {
-    height: 10px;
+.scanner-line {
+    position: absolute;
     width: 100%;
-    background: #1a1a1a;
-    border-radius: 5px;
-    overflow: hidden;
-    border: 1px solid var(--accent-green);
-}
-.skill-per {
-    height: 100%;
-    background: var(--accent-green);
-    box-shadow: 0 0 10px var(--accent-green);
-    animation: fillBars 2.5s ease-in-out;
+    height: 2px;
+    background: rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scan 4s linear infinite;
+    z-index: 1;
 }
 
-@keyframes fillBars {
-    from { width: 0; }
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
 }
 
-.bio-section {
-    padding: 60px 20px;
-    background: rgba(0, 255, 65, 0.02);
-    border-radius: 10px;
-    border: 1px solid #111;
-}
-
-.bio-content p {
-    font-size: 1.1rem;
-    line-height: 1.8;
+.profile-logo {
+    width: 180px;
+    height: 180px;
+    border: 3px solid var(--primary);
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 0 25px var(--primary);
     margin-bottom: 20px;
 }
 
-/* Service Cards */
-.service-card {
-    background: #0d0d0d;
-    border: 1px solid #222;
-    transition: all 0.4s ease;
+.glitch-text {
+    font-size: 4.5rem;
+    color: var(--primary);
+    text-shadow: 2px 2px #ff0000, -2px -2px #0000ff;
+    letter-spacing: 5px;
 }
 
-.service-card:hover {
-    border-color: var(--accent-green);
-    box-shadow: 0 0 20px var(--matrix-color);
-    transform: scale(1.05);
+/* Skills Matrix */
+.skill-matrix { display: grid; gap: 30px; margin-top: 40px; }
+.progress-bar {
+    background: #111;
+    height: 12px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.fill {
+    height: 100%;
+    background: linear-gradient(90deg, #003b00, var(--primary));
+    box-shadow: 0 0 10px var(--primary);
+    border-radius: 10px;
+}
+
+/* Service Cards */
+.service-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px 0;
+}
+.card {
+    background: var(--glass);
+    border: 1px solid #1a1a1a;
+    padding: 40px;
+    transition: 0.3s;
+    text-align: center;
+}
+.card:hover {
+    border-color: var(--primary);
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+}
+.card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+
+/* Buttons */
+.btn-primary {
+    padding: 15px 30px;
+    background: var(--primary);
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 10px;
+    display: inline-block;
 }
