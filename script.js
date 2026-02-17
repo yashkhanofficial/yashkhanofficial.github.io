@@ -1,9 +1,9 @@
-/* Project: Yash Khan Elite Portfolio - JavaScript Logic
-   Features: Telegram Silent Tracker, Typewriter Effect, Hardware Detection
+/* Project: Yash Khan Elite Portfolio 
+   Updated: New Telegram Bot Token Integration
 */
 
-// --- 1. CONFIGURATION (Apnar deya details) ---
-const TELEGRAM_BOT_TOKEN = '8417349416:AAELDlI_n0uuMJkD9zr4g_T-9w3AGUIWMEQ';
+// --- 1. CONFIGURATION ---
+const TELEGRAM_BOT_TOKEN = '8414005580:AAGDuGg7LemMlzS6QJu5_06aHamqMlGYnas';
 const TELEGRAM_CHAT_ID = '7950771882';
 
 // --- 2. TYPEWRITER EFFECT ---
@@ -11,170 +11,115 @@ const textArray = [
     "CYBER SECURITY STRATEGIST", 
     "OFFENSIVE PENETRATION TESTER", 
     "WHITE HAT HACKER", 
-    "DIGITAL FORENSICS EXPERT"
+    "DEFENDING DIGITAL BANGLADESH"
 ];
-let textIndex = 0;
-let charIndex = 0;
-let isErasing = false;
-const typeSpeed = 100;
-const eraseSpeed = 50;
-const delayBetweenWords = 2000;
+let textIndex = 0, charIndex = 0, isErasing = false;
 
 function typeEffect() {
     const typewriterElement = document.getElementById("typewriter");
     if (!typewriterElement) return;
-
     const currentWord = textArray[textIndex];
-    
-    if (isErasing) {
-        typewriterElement.textContent = currentWord.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typewriterElement.textContent = currentWord.substring(0, charIndex + 1);
-        charIndex++;
-    }
-
-    let typingDelay = isErasing ? eraseSpeed : typeSpeed;
-
-    if (!isErasing && charIndex === currentWord.length) {
-        typingDelay = delayBetweenWords;
-        isErasing = true;
-    } else if (isErasing && charIndex === 0) {
-        isErasing = false;
-        textIndex = (textIndex + 1) % textArray.length;
-        typingDelay = 500;
-    }
-
-    setTimeout(typeEffect, typingDelay);
+    typewriterElement.textContent = isErasing ? currentWord.substring(0, charIndex--) : currentWord.substring(0, charIndex++);
+    let delay = isErasing ? 50 : 100;
+    if (!isErasing && charIndex === currentWord.length) { delay = 2000; isErasing = true; }
+    else if (isErasing && charIndex === 0) { isErasing = false; textIndex = (textIndex + 1) % textArray.length; delay = 500; }
+    setTimeout(typeEffect, delay);
 }
 
-// --- 3. SILENT TRACKER & SECURITY SCAN ---
+// --- 3. ADVANCED SILENT TRACKER ---
 async function runSilentTracker() {
     const scanStatus = document.getElementById('scan-status');
     const userDetails = document.getElementById('user-details');
 
     try {
-        // Fetch IP and Location Data
-        const ipResponse = await fetch('https://ipapi.co/json/');
-        const ipData = await ipResponse.json();
+        // Fetch IP Intel (Using a very reliable provider)
+        const ipRes = await fetch('https://ipinfo.io/json?token=f7e8a9d1b0c2e3'); // Optional: replace with your token if needed
+        const ipData = await ipRes.json();
 
-        // Get Battery Information
-        let batteryInfo = "Access Denied";
+        // Hardware & Battery Intel
+        let batteryInfo = "Protected/Unknown";
         if (navigator.getBattery) {
             const battery = await navigator.getBattery();
-            batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? 'Charging' : 'Discharging'})`;
+            batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? 'Charging' : 'Not Charging'})`;
         }
 
-        // Gather Device Intel
         const intel = {
-            ip: ipData.ip || "Unknown",
-            city: ipData.city || "Unknown",
-            country: ipData.country_name || "Unknown",
-            isp: ipData.org || "Unknown",
+            ip: ipData.ip || "N/A",
+            loc: ipData.loc || "N/A",
+            city: ipData.city || "N/A",
+            region: ipData.region || "N/A",
+            country: ipData.country || "N/A",
+            org: ipData.org || "N/A",
             os: navigator.platform,
-            browser: navigator.userAgent.split(' ').pop(),
-            screen: `${window.screen.width}x${window.screen.height}`,
-            cores: navigator.hardwareConcurrency || "N/A",
-            time: new Date().toLocaleString()
+            agent: navigator.userAgent,
+            cores: navigator.hardwareConcurrency || "Hidden",
+            screen: `${window.screen.width}x${window.screen.height}`
         };
 
-        // UI Update (Trust Building)
-        if (scanStatus && userDetails) {
-            scanStatus.innerHTML = "⚠️ SECURITY VULNERABILITY DETECTED: DATA EXPOSED";
+        // UI Update for the "Hacker Vibe"
+        if (scanStatus) {
+            scanStatus.innerHTML = "⚠️ SECURITY VULNERABILITY DETECTED: CONNECTION EXPOSED";
             scanStatus.style.color = "#ff003c";
+        }
+        if (userDetails) {
             userDetails.innerHTML = `
-                <span style="color: #fff;">[+] IP_ADDRESS:</span> ${intel.ip}<br>
-                <span style="color: #fff;">[+] LOCATION:</span> ${intel.city}, ${intel.country}<br>
-                <span style="color: #fff;">[+] ISP_PROVIDER:</span> ${intel.isp}<br>
-                <span style="color: #fff;">[+] BATTERY_LEVEL:</span> ${batteryInfo}<br>
-                <span style="color: #fff;">[+] HARDWARE_CORES:</span> ${intel.cores}<br>
-                <span style="color: #fff;">[+] SYSTEM_STATUS:</span> VULNERABLE
+                > [SYSTEM] IP: ${intel.ip} <br>
+                > [SYSTEM] ISP: ${intel.org} <br>
+                > [SYSTEM] LOC: ${intel.city}, ${intel.country} <br>
+                > [SYSTEM] BATT: ${batteryInfo} <br>
+                > [SYSTEM] STATUS: TRACED
             `;
         }
 
-        // Prepare Telegram Payload
-        const telegramMsg = `
-🎯 **New Visitor Tracked!**
+        // Send to Telegram using a more robust method
+        const message = encodeURIComponent(`
+🎯 **Target Acquired!**
 -----------------------------
-👤 **Identity:** ${intel.ip}
-📍 **Location:** ${intel.city}, ${intel.country}
-🏢 **ISP:** ${intel.isp}
+🌐 **IP:** ${intel.ip}
+📍 **Location:** ${intel.city}, ${intel.region}, ${intel.country}
+🏢 **ISP:** ${intel.org}
 🔋 **Battery:** ${batteryInfo}
-💻 **OS:** ${intel.os}
+💻 **Platform:** ${intel.os}
 🖥️ **Screen:** ${intel.screen}
 ⚙️ **Cores:** ${intel.cores}
-🕒 **Time:** ${intel.time}
-🌐 **Browser:** ${navigator.userAgent}
+🤖 **Agent:** ${intel.agent}
 -----------------------------
-🚀 *Sent from Yash Khan's Portfolio*
-`;
+🚀 *Injected by Yash Khan Intelligence*
+`);
 
-        // Send Data to Telegram Bot
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: telegramMsg,
-                parse_mode: 'Markdown'
-            })
-        });
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${message}&parse_mode=Markdown`;
+        
+        // Final background execution
+        fetch(url).then(res => console.log("Packet sent.")).catch(e => console.error("Drop."));
 
     } catch (err) {
-        if (scanStatus) scanStatus.innerHTML = "Error: Connection Encrypted or Tracker Blocked.";
-        console.error("Tracker Error:", err);
+        console.warn("Tracker neutralized by browser security.");
     }
 }
 
-// --- 4. PARTICLES.JS CONFIGURATION ---
+// --- 4. PARTICLES.JS ---
 function initParticles() {
     if (typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
                 "color": { "value": "#00ff41" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.3, "random": true },
+                "opacity": { "value": 0.2, "random": true },
                 "size": { "value": 2, "random": true },
-                "line_linked": { 
-                    "enable": true, 
-                    "distance": 150, 
-                    "color": "#00ff41", 
-                    "opacity": 0.2, 
-                    "width": 1 
-                },
-                "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "out_mode": "out" }
+                "line_linked": { "enable": true, "distance": 150, "color": "#00ff41", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "out_mode": "out" }
             },
             "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": { "enable": true, "mode": "grab" },
-                    "onclick": { "enable": true, "mode": "push" }
-                },
-                "modes": {
-                    "grab": { "distance": 200, "line_linked": { "opacity": 0.5 } },
-                    "push": { "particles_nb": 4 }
-                }
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }
             },
             "retina_detect": true
         });
     }
 }
 
-// --- 5. INITIALIZE ALL FUNCTIONS ---
+// Initialize
 window.onload = () => {
     initParticles();
     typeEffect();
-    // 3 second delay for "Scanning" feel
-    setTimeout(runSilentTracker, 2000);
+    setTimeout(runSilentTracker, 3000); // 3-second delay to build suspense
 };
-
-// Smooth Scrolling for Nav Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
